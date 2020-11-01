@@ -43,6 +43,7 @@ dependencies {
 
     // Image handler
     implementation "com.github.bumptech.glide:glide:$rootProject.glide_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "com.github.bumptech.glide:compiler:$rootProject.glide_version"
 
     // Networking
