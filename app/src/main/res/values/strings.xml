@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">OMTest</string>
+    <string name="app_name" translatable="false">OMTest</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="videoid">Video ID</string>
+    <string name="videoname">Video Name</string>
+    <string name="videodescription">Video Description</string>
+    <string name="videoprovider">Video Provider</string>
+    <string name="videoduration">Video Duration</string>
+    <string name="videoyear">Video Year</string>
+    <string name="videodefinition">Video Definition</string>
 </resources>
