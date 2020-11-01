@@ -17,7 +17,7 @@ interface RequestService {
 
 interface RequestRecommended {
 
-    @GET("?client=json&type=all&subscription=false&filter_viewed_content=true&max_results=10&" +
+    @GET("GetVideoRecommendationList?client=json&type=all&subscription=false&filter_viewed_content=true&max_results=10&" +
             "blend=ar_od_blend_2424video&max_pr_level=8&quality=SD,HD&services=2424VIDEO&" +
             "params=external_content_id:MFO_0000014003")
     suspend fun getRecommended(@Query("params") externalID: String)
@@ -34,7 +34,7 @@ object Service {
         .build()
 
     private val retrofitRecommended = Retrofit.Builder()
-        .baseUrl("https://smarttv.orangetv.orange.es/stv/api/reco/v1/GetVideoRecommendationList")
+        .baseUrl("https://smarttv.orangetv.orange.es/stv/api/reco/v1/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

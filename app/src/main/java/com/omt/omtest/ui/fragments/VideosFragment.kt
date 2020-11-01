@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
 import com.omt.omtest.ui.MainSharedViewModel
+import com.omt.omtest.utils.observe
+import kotlinx.android.synthetic.main.fragment_videos.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,12 +23,14 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VideosFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VideosFragment : Fragment() {
+class VideosFragment : Fragment(), VideoClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private val viewModel: MainSharedViewModel by activityViewModels()
+    //private lateinit var adapter: VideoAdapter
+    private val adapter: VideoAdapter by lazy { VideoAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +44,32 @@ class VideosFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_videos, container, false)
+        val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
+        observe(viewModel.getVideos(), {
+            viewRoot.pb_loading.visibility = View.GONE
+            adapter.submitList(it)
+        })
+        viewModel.getVideos()
+        return viewRoot
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
+        view?.rv_videos?.layoutManager = LinearLayoutManager(requireContext())
+        view?.rv_videos?.setHasFixedSize(true)
+        view?.rv_videos?.adapter = adapter
     }
 
     companion object {
+
+        const val VIEW_FRAGMENT = "VideosList_Fragment"
+
+        @JvmStatic
+        fun newInstance(): Fragment = VideosFragment()
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -60,5 +87,9 @@ class VideosFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onVideoClick(externalID: String) {
+        Toast.makeText(requireContext(),"Video id $externalID selected",Toast.LENGTH_SHORT).show()
     }
 }

@@ -6,6 +6,8 @@ import android.os.Bundle
 import com.omt.omtest.R
 import com.omt.omtest.db.RoomDB
 import com.omt.omtest.network.Service
+import com.omt.omtest.ui.fragments.VideosFragment
+import com.omt.omtest.utils.attachFragment
 import com.omt.omtest.utils.getViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +19,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel.getVideo()
+
+        val initView =  this.supportFragmentManager.findFragmentByTag(VideosFragment.VIEW_FRAGMENT)
+            ?: VideosFragment.newInstance()
+
+        attachFragment(this.supportFragmentManager,R.id.fl_container,initView,VideosFragment.VIEW_FRAGMENT)
     }
 }
 

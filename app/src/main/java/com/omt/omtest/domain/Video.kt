@@ -1,5 +1,7 @@
 package com.omt.omtest.domain
 
+import com.omt.omtest.db.entities.VideoDB
+
 data class Video (
     val metadata : List<Metadata>,
     val keywordswords : String,
@@ -16,7 +18,7 @@ data class Video (
     val description : String,
     val duration : Long,
     val genreEntityList : List<GenreEntityList>,
-    val plannedPublishDate : Long,
+    val plannedPublishDate : String,
     val definition : String,
     val windowEnd : Long,
     val encodings : List<Encodings>,
@@ -26,3 +28,6 @@ data class Video (
     val contentProviderExternalId : String,
     val isFavorite: Boolean = false
 )
+
+fun Video.toDB(): VideoDB =
+    VideoDB(this.id,this.externalId)
