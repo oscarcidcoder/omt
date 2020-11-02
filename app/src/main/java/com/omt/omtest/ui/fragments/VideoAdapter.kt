@@ -9,7 +9,7 @@ import com.omt.omtest.domain.Video
 /**
  * Adapter class for recyclerView Videos
  */
-class VideoAdapter constructor(private val listener: VideoClickListener) : ListAdapter<Video, VideoViewHolder>(VideoDiffCallback()) {
+class VideoAdapter constructor(private val listener: VideoClickListener, private val isFavorites: Boolean = false) : ListAdapter<Video, VideoViewHolder>(VideoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         return VideoViewHolder(
@@ -20,7 +20,7 @@ class VideoAdapter constructor(private val listener: VideoClickListener) : ListA
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         getItem(position).let { video ->
-            holder.bind(video)
+            holder.bind(video,listener,isFavorites)
             holder.itemView.setOnClickListener { listener.onVideoClick(video.externalId) }
         }
     }
@@ -32,4 +32,5 @@ class VideoAdapter constructor(private val listener: VideoClickListener) : ListA
  */
 interface VideoClickListener {
     fun onVideoClick(externalID: String)
+    fun onFavoriteClick(id:Int, externalID: String)
 }

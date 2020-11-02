@@ -1,5 +1,6 @@
 package com.omt.omtest.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.omt.omtest.db.entities.VideoDB
 
@@ -7,17 +8,20 @@ import com.omt.omtest.db.entities.VideoDB
 interface VideoDAO {
 
     @Query("SELECT * FROM video")
-    fun getAll(): List<VideoDB>
+    fun getAll(): LiveData<List<VideoDB>>
 
     @Query("SELECT * FROM video WHERE id = :videoID")
     fun getVideo(videoID: Int): VideoDB?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertVideo(video: VideoDB)
+    suspend fun insertVideo(video: VideoDB)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(videos: List<VideoDB>)
 
     @Query("DELETE FROM video")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Delete
-    fun deleteVideo(video: VideoDB)
+    suspend fun deleteVideo(video: VideoDB)
 }

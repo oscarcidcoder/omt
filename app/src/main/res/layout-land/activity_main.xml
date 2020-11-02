@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <fragment
+        android:name="com.omt.omtest.ui.fragments.VideosFragment"
+        android:id="@+id/fragment_list"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <fragment
+        android:name="com.omt.omtest.ui.fragments.favorites.FavoritesFragment"
+        android:id="@+id/fragment_favorite"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <!--
+    <FrameLayout
+        android:id="@+id/fragment_favorite"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/detailsElementBackground" /> -->
+
+</LinearLayout>

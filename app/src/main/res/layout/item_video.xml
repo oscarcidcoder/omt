@@ -13,50 +13,67 @@
     android:layout_width="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_margin="6dp"
+        android:layout_marginEnd="6dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="140dp"
-            android:maxHeight="140dp"
-            android:minWidth="100dp"
-            android:minHeight="100dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="6dp"
+            android:scaleType="center"
+            app:layout_constraintWidth_min="130dp"
+            app:layout_constraintWidth_max="140dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@android:drawable/ic_menu_report_image" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_favorite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            style="?android:attr/starStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_videoID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="8dp"
+            android:textSize="15sp"
             android:text="@string/videoid"
             app:layout_constraintStart_toEndOf="@id/iv_thumbnail"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_videoName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
-            android:maxLines="1"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:maxLines="2"
+            android:textStyle="bold"
             android:text="@string/videoname"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_thumbnail"
             app:layout_constraintTop_toBottomOf="@id/tv_videoID" />
 
         <TextView
             android:id="@+id/tv_videoDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
-            android:maxLines="4"
+            android:layout_marginEnd="6dp"
+            android:textAlignment="textStart"
+            android:maxLines="6"
             android:text="@string/videodescription"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_thumbnail"
             app:layout_constraintTop_toBottomOf="@id/tv_videoName" />
 
@@ -66,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
+            android:textSize="12sp"
             android:text="@string/videoprovider"
             app:layout_constraintStart_toEndOf="@id/iv_thumbnail"
             app:layout_constraintTop_toBottomOf="@id/tv_videoDescription" />
@@ -76,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/videoduration"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
@@ -86,16 +105,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/videoyear"
+            app:layout_constraintTop_toBottomOf="@id/tv_videoDefinition"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_videoID"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/tv_videoDuration" />
 
         <TextView
             android:id="@+id/tv_videoDefinition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
+            android:textSize="12sp"
             android:layout_marginTop="8dp"
             android:text="@string/videodefinition"
             app:layout_constraintEnd_toEndOf="parent"

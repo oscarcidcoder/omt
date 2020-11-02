@@ -1,4 +1,4 @@
-package com.omt.omtest.ui.fragments
+package com.omt.omtest.ui.fragments.favorites
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
 import com.omt.omtest.ui.MainSharedViewModel
+import com.omt.omtest.ui.fragments.VideoAdapter
+import com.omt.omtest.ui.fragments.VideoClickListener
 import com.omt.omtest.utils.observe
 import kotlinx.android.synthetic.main.fragment_videos.view.*
 
@@ -23,13 +25,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VideosFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VideosFragment : Fragment(), VideoClickListener {
+class FavoritesFragment : Fragment(), VideoClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private val viewModel: MainSharedViewModel by activityViewModels()
-    private val adapter: VideoAdapter by lazy { VideoAdapter(this) }
+    private val adapter: VideoAdapter by lazy { VideoAdapter(this, true) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +46,11 @@ class VideosFragment : Fragment(), VideoClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
-        observe(viewModel.getVideos(), {
+        observe(viewModel.getFavoritesVideos(), {
             viewRoot.pb_loading.visibility = View.GONE
             adapter.submitList(it)
         })
-        //viewModel.getVideos()
+        viewModel.getVideos()
         return viewRoot
     }
 
@@ -65,27 +67,11 @@ class VideosFragment : Fragment(), VideoClickListener {
 
     companion object {
 
-        const val VIEW_FRAGMENT = "VideosList_Fragment"
+        const val VIEW_FRAGMENT = "VideosFavorites_Fragment"
 
         @JvmStatic
-        fun newInstance(): Fragment = VideosFragment()
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment VideosFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            VideosFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance(): Fragment = FavoritesFragment()
+
     }
 
     override fun onVideoClick(externalID: String) {
@@ -93,7 +79,6 @@ class VideosFragment : Fragment(), VideoClickListener {
     }
 
     override fun onFavoriteClick(id:Int, externalID: String) {
-        viewModel.setFavoriteVideo(id,externalID)
-        Toast.makeText(requireContext(),"Video id $id -> $externalID favorite",Toast.LENGTH_SHORT).show()
+
     }
 }
