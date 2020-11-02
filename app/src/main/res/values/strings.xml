@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">OMTest</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="videoid">Video ID</string>
-    <string name="videoname">Video Name</string>
-    <string name="videodescription">Video Description</string>
-    <string name="videoprovider">Video Provider</string>
-    <string name="videoduration">Video Duration</string>
-    <string name="videoyear">Video Year</string>
-    <string name="videodefinition">Video Definition</string>
+    <string name="videoid">Video ID:\u0020</string>
+    <string name="videoname">Name:\u0020</string>
+    <string name="videodescription">Description:\u0020</string>
+    <string name="videoprovider">Provider:\u0020</string>
+    <string name="videoduration">Duration:\u0020</string>
+    <string name="videoyear">Year:\u0020</string>
+    <string name="videodefinition">Definition:\u0020</string>
 </resources>

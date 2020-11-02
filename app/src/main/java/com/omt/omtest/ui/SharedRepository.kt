@@ -9,11 +9,8 @@ class SharedRepository(private val api: RequestService, private val recommendedA
 
     suspend fun getAllVideos() = api.getVideos().asDomain()
 
-    suspend fun getVideo(externalID: String) {
-        api.getVideo(externalID)
-    }
+    suspend fun getVideo(externalID: String) = api.getVideo(externalID).asDomain()
 
-    suspend fun getRecommended(externalID: String) {
-        recommendedApi.getRecommended(externalID)
-    }
+    suspend fun getRecommended(externalID: String) = recommendedApi.getRecommended(externalID).asDomain()
+
 }

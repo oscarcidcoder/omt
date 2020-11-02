@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="videoid">Video ID</string>
-    <string name="videoname">Nobre del Video</string>
-    <string name="videodescription">Description del Video</string>
-    <string name="videoprovider">Proveedor del Video</string>
-    <string name="videoduration">Duration del Video</string>
-    <string name="videoyear">Año del Video</string>
-    <string name="videodefinition">Definicion del Video</string>
+    <string name="videoid">Video ID:\u0020</string>
+    <string name="videoname">Nombre:\u0020</string>
+    <string name="videodescription">Descripcion:\u0020</string>
+    <string name="videoprovider">Proveedor:\u0020</string>
+    <string name="videoduration">Duracion:\u0020</string>
+    <string name="videoyear">Año:\u0020</string>
+    <string name="videodefinition">Definicion:\u0020</string>
 </resources>

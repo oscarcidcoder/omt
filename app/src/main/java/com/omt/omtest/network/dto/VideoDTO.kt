@@ -3,14 +3,13 @@ package com.omt.omtest.network.dto
 import com.omt.omtest.domain.*
 import com.google.gson.annotations.SerializedName
 
-data class Video (
+data class VideoDTO (
 
     @SerializedName("metadata") val metadata : List<Metadata>,
     @SerializedName("prLevel") val prLevel : Int,
     @SerializedName("keywords") val keywordswords : String,
     @SerializedName("year") val year : Int,
     @SerializedName("seriesNumberOfEpisodes") val seriesNumberOfEpisodes : String,
-    //@SerializedName("tvShowReference") val tvShowReference : TvShowReference,
     @SerializedName("episodeId") val episodeId : String,
     @SerializedName("type") val type : String,
     @SerializedName("assetExternalId") val assetExternalId : String,
