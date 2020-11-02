@@ -7,8 +7,11 @@ import com.omt.omtest.db.entities.VideoDB
 @Dao
 interface VideoDAO {
 
+    //@Query("SELECT * FROM video")
+    //fun getAll(): LiveData<List<VideoDB>>
+
     @Query("SELECT * FROM video")
-    fun getAll(): LiveData<List<VideoDB>>
+    fun getAll(): List<VideoDB>
 
     @Query("SELECT * FROM video WHERE id = :videoID")
     fun getVideo(videoID: Int): VideoDB?

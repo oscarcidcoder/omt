@@ -50,7 +50,7 @@ class FavoritesFragment : Fragment(), VideoClickListener {
             viewRoot.pb_loading.visibility = View.GONE
             adapter.submitList(it)
         })
-        viewModel.getVideos()
+        //viewModel.getVideos()
         return viewRoot
     }
 

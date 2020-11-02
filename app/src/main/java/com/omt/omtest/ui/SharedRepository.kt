@@ -1,5 +1,6 @@
 package com.omt.omtest.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -13,6 +14,7 @@ import com.omt.omtest.network.dto.containers.asDomain
 
 class SharedRepository(private val api: RequestService, private val recommendedApi: RequestRecommended, private val videoDAO: VideoDAO) {
 
+    private val TAG = "SharedRepository"
     private lateinit var allVideos: List<Video>
     private val _mutableFavorite = MutableLiveData<List<Video?>>()
 
@@ -21,7 +23,9 @@ class SharedRepository(private val api: RequestService, private val recommendedA
 
     suspend fun getAllVideos(): List<Video>  {
         allVideos = api.getVideos().asDomain()
-        _mutableFavorite.postValue(getFavorites().value)
+        val rosmy = getFavorites()
+        Log.i(TAG, "getAllVideos: favorites -> $rosmy")
+        _mutableFavorite.postValue(rosmy)
         return allVideos;
     }
 
@@ -29,28 +33,43 @@ class SharedRepository(private val api: RequestService, private val recommendedA
 
     suspend fun getRecommended(externalID: String) = recommendedApi.getRecommended(externalID).asDomain()
 
+    private fun getFavorites(): List<Video> {
+        val videosDB = videoDAO.getAll()
+        videosDB.forEach {videoDB ->
+            allVideos.find { it.id == videoDB.id }?.apply { isFavorite = true }
+        }
+
+        Log.i(TAG, "getFavorites: VIDEO_DB -> $videosDB")
+        Log.i(TAG, "getFavorites: VIDEO_ALL -> $allVideos")
+
+        return allVideos.filter { it.isFavorite }
+    }
+
+    /*
     private fun getFavorites() = Transformations.map(videoDAO.getAll()) { videosDB ->
         videosDB.map { videoDB -> allVideos.find { it.id == videoDB.id }?.apply {
             isFavorite = true
         }
         }
-    }
+    } */
 
 
     suspend fun saveFavorites() {
         _mutableFavorite.value?.let { videoDAO.insertAll(it.toDB()) }
-         //videoDAO.insertAll(_mutableFavorite.value?.toDB()!!)
+        Log.i(TAG, "saveFavorites: SAVED")
     }
 
     suspend fun saveFavoriteVideo(videoDB: VideoDB) {
-        val listFavorite = _mutableFavorite.value?.toMutableList()
-        if (listFavorite?.removeAll { it?.id == videoDB.id } == false) {
+        val listFavorite = _mutableFavorite.value?.toMutableList() ?: mutableListOf()
+        Log.i(TAG, "saveFavoriteVideo: listFavorite -> $listFavorite")
+        if (!listFavorite?.removeAll { it?.id == videoDB.id }) {
             val video = allVideos.find { it.id == videoDB.id }?.apply {
                 isFavorite = true
             }
             listFavorite.add(video)
-            _mutableFavorite.postValue(listFavorite)
+            Log.i(TAG, "saveFavoriteVideo: listFavorite ADD -> $video")
         }
+        _mutableFavorite.postValue(listFavorite)
 
     }
 
