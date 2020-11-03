@@ -6,7 +6,7 @@
     android:orientation="horizontal" >
 
     <fragment
-        android:name="com.omt.omtest.ui.fragments.VideosFragment"
+        android:name="com.omt.omtest.ui.fragments.allvideos.VideosFragment"
         android:id="@+id/fragment_list"
         android:layout_width="0px"
         android:layout_height="match_parent"

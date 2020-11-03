@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.omt.omtest.R
 import com.omt.omtest.db.RoomDB
 import com.omt.omtest.network.Service
-import com.omt.omtest.ui.fragments.VideosFragment
+import com.omt.omtest.ui.fragments.allvideos.VideosFragment
 import com.omt.omtest.utils.attachFragment
 import com.omt.omtest.utils.getViewModel
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val initView =  this.supportFragmentManager.findFragmentByTag(VideosFragment.VIEW_FRAGMENT)
             ?: VideosFragment.newInstance()
 
-        attachFragment(this.supportFragmentManager,R.id.fl_container,initView,VideosFragment.VIEW_FRAGMENT)
+        attachFragment(this.supportFragmentManager,R.id.fl_container,initView, VideosFragment.VIEW_FRAGMENT)
 
         getViewModel { MainSharedViewModel(buildRepository(this)) }
     }

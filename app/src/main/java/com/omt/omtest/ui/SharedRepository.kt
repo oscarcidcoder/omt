@@ -9,9 +9,7 @@ import com.omt.omtest.network.dto.containers.asDomain
 
 class SharedRepository(private val api: RequestService, private val recommendedApi: RequestRecommended, private val videoDAO: VideoDAO) {
 
-
     suspend fun getAllVideos(): List<Video> = api.getVideos().asDomain()
-
 
     suspend fun getVideo(externalID: String) = api.getVideo(externalID).asDomain()
 

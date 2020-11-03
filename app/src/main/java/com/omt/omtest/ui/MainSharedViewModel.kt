@@ -34,6 +34,12 @@ class MainSharedViewModel constructor(private val repository: SharedRepository) 
      */
     fun getVideo(externalID: String) = _allVideos.value?.find { it.externalId == externalID }
 
+    fun getVideo2(externalID: String): Video? {
+        val ver = getAllVideos.value?.get(0)
+        val result = _allVideos.value?.find { it.externalId == externalID }
+        return result
+    }
+
     /**
      * Find video in network
      */

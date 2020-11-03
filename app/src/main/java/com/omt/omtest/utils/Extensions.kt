@@ -36,6 +36,7 @@ inline fun <reified T> Result<T>.doIfSuccess(callback: (value: T) -> Unit) {
 
 // Convierte el externalId en paramentro para buscar los recomendados
 fun String.externalToParam() = "external_content_id:$this"
+// Busqueda de las imagenes por su path
 fun String.imagePath() = "https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images$this"
 
 // ----------- Handler LifeCycle Extensions ----------- //

@@ -1,6 +1,7 @@
-package com.omt.omtest.ui.fragments
+package com.omt.omtest.ui.fragments.allvideos
 
 import android.os.Bundle
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
 import com.omt.omtest.ui.MainSharedViewModel
+import com.omt.omtest.ui.detailvideo.DetailVideoActivity
+import com.omt.omtest.ui.fragments.VideoAdapter
+import com.omt.omtest.ui.fragments.VideoClickListener
 import com.omt.omtest.utils.observe
 import kotlinx.android.synthetic.main.fragment_videos.view.*
 
@@ -37,6 +41,7 @@ class VideosFragment : Fragment(), VideoClickListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -44,10 +49,6 @@ class VideosFragment : Fragment(), VideoClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
-        /*observe(viewModel.getVideos(), {
-            viewRoot.pb_loading.visibility = View.GONE
-            adapter.submitList(it)
-        })*/
         observe(viewModel.getAllVideos, {
             viewRoot.pb_loading.visibility = View.GONE
             adapter.submitList(it)
@@ -92,7 +93,7 @@ class VideosFragment : Fragment(), VideoClickListener {
     }
 
     override fun onVideoClick(externalID: String) {
-        Toast.makeText(requireContext(),"Video id $externalID selected",Toast.LENGTH_SHORT).show()
+        DetailVideoActivity.callDetail(requireContext(),externalID)
     }
 
     override fun onFavoriteClick(id:Int, externalID: String) {
