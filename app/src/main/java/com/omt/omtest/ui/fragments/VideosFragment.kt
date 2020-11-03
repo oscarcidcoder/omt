@@ -44,11 +44,14 @@ class VideosFragment : Fragment(), VideoClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
-        observe(viewModel.getVideos(), {
+        /*observe(viewModel.getVideos(), {
+            viewRoot.pb_loading.visibility = View.GONE
+            adapter.submitList(it)
+        })*/
+        observe(viewModel.getAllVideos, {
             viewRoot.pb_loading.visibility = View.GONE
             adapter.submitList(it)
         })
-        //viewModel.getVideos()
         return viewRoot
     }
 

@@ -1,45 +1,58 @@
 package com.omt.omtest.ui
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
-import com.omt.omtest.db.entities.VideoDB
+import androidx.lifecycle.*
+import com.omt.omtest.domain.Video
 import kotlinx.coroutines.*
 
 class MainSharedViewModel constructor(private val repository: SharedRepository) : ViewModel() {
 
     val job = SupervisorJob()
 
-    fun getVideos() =
-        liveData(job + Dispatchers.IO) {
-            emit(repository.getAllVideos())
+    private val _allVideos = MutableLiveData<List<Video>>()
+    val getAllVideos: LiveData<List<Video>>
+        get() = _allVideos
+
+    private val _mutableFavorite = MutableLiveData<List<Video?>>()
+    val getFavoritesVideos: LiveData<List<Video?>>
+        get() = _mutableFavorite
+
+    init {
+        getVideos()
+    }
+
+    private fun getVideos() {
+        viewModelScope.launch(job + Dispatchers.IO) {
+            val videos = repository.getAllVideos()
+            val favoritesVideos = repository.getFavorites(videos)
+            _allVideos.postValue(videos)
+            _mutableFavorite.postValue(favoritesVideos)
         }
+    }
 
-
-    fun getVideo() {
+    fun getVideo(externalID: String) {
 
     }
 
-    fun getRecommended() {
+    fun getVideoWeb(externalID: String) {
 
     }
 
-    fun getFavoritesVideos() = liveData { emitSource(repository.getFavoritesVideos) }
+    fun getRecommended(externalID: String) {
 
+    }
 
     fun setFavoriteVideo(id:Int, externalID: String) {
-        val newFavorite = VideoDB(id,externalID)
-        viewModelScope.launch(job + Dispatchers.IO) {
-            repository.saveFavoriteVideo(newFavorite)
-        }
+        val videos = _allVideos.value
+        videos?.find { it.id == id }?.apply { isFavorite = !isFavorite }
+        _mutableFavorite.value = videos?.filter { it.isFavorite }
+        _allVideos.value = videos
     }
-
 
 
     override fun onCleared() {
         super.onCleared()
         viewModelScope.launch(job + Dispatchers.IO) {
-            repository.saveFavorites()
+            repository.saveFavorites(_mutableFavorite.value ?: listOf())
         }
     }
 

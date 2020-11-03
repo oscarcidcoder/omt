@@ -12,22 +12,20 @@ import com.omt.omtest.utils.getViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainSharedViewModel by lazy { getViewModel { MainSharedViewModel(
-        buildRepository(this)) } }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel.getVideo()
 
         val initView =  this.supportFragmentManager.findFragmentByTag(VideosFragment.VIEW_FRAGMENT)
             ?: VideosFragment.newInstance()
 
         attachFragment(this.supportFragmentManager,R.id.fl_container,initView,VideosFragment.VIEW_FRAGMENT)
+
+        getViewModel { MainSharedViewModel(buildRepository(this)) }
     }
+
+    private fun buildRepository(context: Context) =
+            SharedRepository(Service.request, Service.requestRecommended,
+                    RoomDB.getDatabase(context).videoDAO())
 }
 
-private fun buildRepository(context: Context) =
-    SharedRepository(Service.request, Service.requestRecommended,
-        RoomDB.getDatabase(context).videoDAO())
