@@ -7,4 +7,6 @@
     <string name="videoduration">Duration:\u0020</string>
     <string name="videoyear">Year:\u0020</string>
     <string name="videodefinition">Definition:\u0020</string>
+    <string name="nameFrame">List Videos</string>
+    <string name="nameFrameFav">Favorite Videos</string>
 </resources>

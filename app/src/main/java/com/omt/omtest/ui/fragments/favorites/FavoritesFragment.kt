@@ -46,6 +46,7 @@ class FavoritesFragment : Fragment(), VideoClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
+        viewRoot.tv_nameFrame.text = getString(R.string.nameFrameFav)
         observe(viewModel.getFavoritesVideos, {
             viewRoot.pb_loading.visibility = View.GONE
             adapter.submitList(it)

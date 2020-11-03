@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.VideosFragment">
 
+    <TextView
+        android:id="@+id/tv_nameFrame"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:textAlignment="center"
+        android:paddingTop="4dp"
+        android:background="@color/purple_200"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:text="@string/nameFrame"/>
+
     <ProgressBar
         android:id="@+id/pb_loading"
         android:layout_gravity="center"
@@ -13,6 +24,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_videos"
+        android:layout_marginTop="28dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

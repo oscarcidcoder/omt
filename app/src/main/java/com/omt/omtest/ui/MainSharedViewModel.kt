@@ -29,16 +29,20 @@ class MainSharedViewModel constructor(private val repository: SharedRepository) 
         }
     }
 
-    fun getVideo(externalID: String) {
+    /**
+     * Find video in internal list without go to network
+     */
+    fun getVideo(externalID: String) = _allVideos.value?.find { it.externalId == externalID }
 
+    /**
+     * Find video in network
+     */
+    fun getVideoWeb(externalID: String) = liveData(job + Dispatchers.IO) {
+        emit(repository.getVideo(externalID))
     }
 
-    fun getVideoWeb(externalID: String) {
-
-    }
-
-    fun getRecommended(externalID: String) {
-
+    fun getRecommended(externalID: String) = liveData(job + Dispatchers.IO) {
+        emit(repository.getRecommended(externalID))
     }
 
     fun setFavoriteVideo(id:Int, externalID: String) {
@@ -48,7 +52,9 @@ class MainSharedViewModel constructor(private val repository: SharedRepository) 
         _allVideos.value = videos
     }
 
-
+    /**
+     * OnCleared call, save all favorite data
+     */
     override fun onCleared() {
         super.onCleared()
         viewModelScope.launch(job + Dispatchers.IO) {
