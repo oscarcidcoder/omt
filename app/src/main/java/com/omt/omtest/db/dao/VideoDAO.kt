@@ -1,14 +1,10 @@
 package com.omt.omtest.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.omt.omtest.db.entities.VideoDB
 
 @Dao
 interface VideoDAO {
-
-    //@Query("SELECT * FROM video")
-    //fun getAll(): LiveData<List<VideoDB>>
 
     @Query("SELECT * FROM video")
     fun getAll(): List<VideoDB>

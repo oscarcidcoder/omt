@@ -12,7 +12,7 @@ data class RecommendedVideoDTO (
         @SerializedName("prLevel") val prLevel : Int,
         @SerializedName("availabilities") val availabilities : List<Availabilities>,
         @SerializedName("prName") val prName : String,
-        @SerializedName("rating") val rating : Int,
+        @SerializedName("rating") val rating : Float,
         @SerializedName("type") val type : String,
         @SerializedName("ContentProperties") val contentProperties : List<String>,
         @SerializedName("recommendationReasons") val recommendationReasons : List<String>,

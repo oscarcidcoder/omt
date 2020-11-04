@@ -15,12 +15,22 @@
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="0dp"
-            android:layout_height="220dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintDimensionRatio="H,2:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars"
             android:contentDescription="TODO" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_favorite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            style="?android:attr/starStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -82,10 +92,8 @@
             android:id="@+id/rv_recommended"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_min="350dp"

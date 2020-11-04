@@ -71,7 +71,8 @@ fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) ->
 // Handler images
 
 fun ImageView.loadUrl(url: String) {
-    Glide.with(context).load(url).placeholder(android.R.drawable.ic_menu_report_image).into(this)
+    Glide.with(context).load(url).placeholder(android.R.drawable.ic_menu_report_image)
+            .dontAnimate().dontTransform().into(this)
 }
 
 /**

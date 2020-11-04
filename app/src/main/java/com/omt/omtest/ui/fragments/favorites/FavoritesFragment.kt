@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
+import com.omt.omtest.domain.Video
 import com.omt.omtest.ui.MainSharedViewModel
+import com.omt.omtest.ui.detailvideo.DetailVideoActivity
 import com.omt.omtest.ui.fragments.VideoAdapter
 import com.omt.omtest.ui.fragments.VideoClickListener
 import com.omt.omtest.utils.observe
@@ -32,7 +33,8 @@ class FavoritesFragment : Fragment(), VideoClickListener {
         viewRoot.tv_nameFrame.text = getString(R.string.nameFrameFav)
         observe(viewModel.getFavoritesVideos, {
             viewRoot.pb_loading.visibility = View.GONE
-            adapter.submitList(it)
+            adapter.submitList(null)
+            adapter.submitList(it as List<Video>?)
         })
         return viewRoot
     }
@@ -57,11 +59,11 @@ class FavoritesFragment : Fragment(), VideoClickListener {
 
     }
 
-    override fun onVideoClick(externalID: String) {
-        Toast.makeText(requireContext(),"Video id $externalID selected",Toast.LENGTH_SHORT).show()
+    override fun onVideoClick(video: Video, position: Int) {
+        DetailVideoActivity.callDetail(requireContext(),video.externalId, video.isFavorite)
     }
 
     override fun onFavoriteClick(id:Int, externalID: String) {
-
+        // NA
     }
 }

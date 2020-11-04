@@ -1,6 +1,7 @@
 package com.omt.omtest.ui.fragments.allvideos
 
 import android.os.Bundle
+import android.util.Log
 
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,9 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
+import com.omt.omtest.domain.Video
 import com.omt.omtest.ui.MainSharedViewModel
+import com.omt.omtest.ui.SearchHelper
 import com.omt.omtest.ui.detailvideo.DetailVideoActivity
 import com.omt.omtest.ui.fragments.VideoAdapter
 import com.omt.omtest.ui.fragments.VideoClickListener
@@ -27,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VideosFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VideosFragment : Fragment(), VideoClickListener {
+class VideosFragment : Fragment(), VideoClickListener, SearchHelper {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -51,6 +54,7 @@ class VideosFragment : Fragment(), VideoClickListener {
         val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
         observe(viewModel.getAllVideos, {
             viewRoot.pb_loading.visibility = View.GONE
+            adapter.submitList(null)
             adapter.submitList(it)
         })
         return viewRoot
@@ -92,12 +96,16 @@ class VideosFragment : Fragment(), VideoClickListener {
             }
     }
 
-    override fun onVideoClick(externalID: String) {
-        DetailVideoActivity.callDetail(requireContext(),externalID)
+    override fun onVideoClick(video: Video, position: Int) {
+        DetailVideoActivity.callDetail(requireContext(),video.externalId, video.isFavorite)
     }
 
     override fun onFavoriteClick(id:Int, externalID: String) {
         viewModel.setFavoriteVideo(id,externalID)
         Toast.makeText(requireContext(),"Video id $id -> $externalID favorite",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun doSearch(search: String?) {
+        adapter.filter.filter(search)
     }
 }

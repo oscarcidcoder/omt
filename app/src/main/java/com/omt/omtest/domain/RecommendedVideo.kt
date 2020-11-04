@@ -5,7 +5,7 @@ data class RecommendedVideo (
         val images : List<Images>,
         val availabilities : List<Availabilities>,
         val prName : String,
-        val rating : Int,
+        val rating : Float,
         val genres : List<Genres>,
         val name : String,
         val externalContentId : String,

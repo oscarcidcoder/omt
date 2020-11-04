@@ -85,6 +85,7 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
             android:textSize="12sp"
+            android:ellipsize="end"
             android:text="@string/videoprovider"
             app:layout_constraintStart_toEndOf="@id/iv_thumbnail"
             app:layout_constraintTop_toBottomOf="@id/tv_videoDescription" />
@@ -96,6 +97,7 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="6dp"
+            android:ellipsize="end"
             android:text="@string/videoduration"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"

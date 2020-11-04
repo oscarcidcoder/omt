@@ -20,8 +20,8 @@ interface RequestService {
 interface RequestRecommended {
 
     @GET("GetVideoRecommendationList?client=json&type=all&subscription=false&filter_viewed_content=true&max_results=10&" +
-            "blend=ar_od_blend_2424video&max_pr_level=8&quality=SD,HD&services=2424VIDEO&")
-    suspend fun getRecommended(@Query("params") externalID: String): RecommendedContainer
+            "blend=ar_od_blend_2424video&max_pr_level=8&quality=SD,HD&services=2424VIDEO")
+    suspend fun getRecommended(@Query("params") assetExternalId: String): RecommendedContainer
 }
 
 /**

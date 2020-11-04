@@ -1,28 +1,51 @@
 package com.omt.omtest.ui.detailvideo
 
 import androidx.lifecycle.*
+import com.omt.omtest.domain.RecommendedVideo
 import com.omt.omtest.domain.Video
 import com.omt.omtest.ui.SharedRepository
+import com.omt.omtest.utils.externalToParam
 import kotlinx.coroutines.*
 
-class DetailViewModel constructor(private val repository: SharedRepository, private val allVideos: List<Video>) : ViewModel() {
+class DetailViewModel constructor(private val externalID: String,
+                                  private val isFavoriteInit: Boolean,
+                                  private val repository: SharedRepository) : ViewModel() {
 
     val job = SupervisorJob()
 
-    /**
-     * Find video in internal list without go to network
-     */
-    fun getVideo(externalID: String) = allVideos.find { it.externalId == externalID }
+    private val _video = MutableLiveData<Video>()
+    val getVideo: LiveData<Video>
+        get() = _video
 
-    /**
-     * Find video in network
-     */
-    fun getVideoWeb(externalID: String) = liveData(job + Dispatchers.IO) {
-        emit(repository.getVideo(externalID))
+    private val _allRecommende = MutableLiveData<List<RecommendedVideo>>()
+    val getRecommende: LiveData<List<RecommendedVideo>>
+        get() = _allRecommende
+
+    init {
+        getVideoData()
     }
 
-    fun getRecommended(externalID: String) = liveData(job + Dispatchers.IO) {
-        emit(repository.getRecommended(externalID))
+    private fun getVideoData() {
+        viewModelScope.launch(job + Dispatchers.IO) {
+            val videoDeferred = async {
+                repository.getVideo(externalID)
+            }
+            val video = videoDeferred.await()
+            video.isFavorite = isFavoriteInit
+            _video.postValue(video)
+            _allRecommende.postValue(repository.getRecommended(video.assetExternalId.externalToParam()))
+        }
+    }
+
+    fun setFavoriteState() {
+        _video.value?.apply { isFavorite = !isFavorite }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.launch(job + Dispatchers.IO) {
+            _video.value?.let { repository.saveVideoFavorite(it) }
+        }
     }
 
 }

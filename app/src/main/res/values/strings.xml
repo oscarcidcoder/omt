@@ -9,4 +9,8 @@
     <string name="videodefinition">Definition:\u0020</string>
     <string name="nameFrame">List Videos</string>
     <string name="nameFrameFav">Favorite Videos</string>
+    <string name="rating" translatable="false">Rating:\u0020</string>
+    <string name="ratingCount">Raters Count:\u0020</string>
+    <string name="genre">Genre:\u0020</string>
+    <string name="end">End:\u0020</string>
 </resources>
