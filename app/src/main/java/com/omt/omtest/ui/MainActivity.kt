@@ -47,15 +47,12 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(
                 object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(p0: String?): Boolean {
-                        listenerSearch.forEach {
-                            it.doSearch(p0)
-                        }
                         return false
                     }
 
-                    override fun onQueryTextChange(p0: String?): Boolean {
+                    override fun onQueryTextChange(charecter: String?): Boolean {
                         listenerSearch.forEach {
-                            it.doSearch(p0)
+                            it.doSearch(charecter)
                         }
                         return false
                     }
@@ -82,8 +79,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.saveFavorites()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        listenerSearch.clear()
+    }
+
 }
 
+// CallBack para comunicacion con los fragmentos
 interface SearchHelper {
     fun doSearch(search: String?)
 }

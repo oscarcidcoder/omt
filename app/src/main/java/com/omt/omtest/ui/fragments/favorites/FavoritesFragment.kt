@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
 import com.omt.omtest.domain.Video
 import com.omt.omtest.ui.MainSharedViewModel
+import com.omt.omtest.ui.SearchHelper
 import com.omt.omtest.ui.detailvideo.DetailVideoActivity
 import com.omt.omtest.ui.fragments.VideoAdapter
 import com.omt.omtest.ui.fragments.VideoClickListener
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_videos.view.*
 /**
  * Favorite fragment videos
  */
-class FavoritesFragment : Fragment(), VideoClickListener {
+class FavoritesFragment : Fragment(), VideoClickListener, SearchHelper {
 
     private val viewModel: MainSharedViewModel by activityViewModels()
     private val adapter: VideoAdapter by lazy { VideoAdapter(this, true) }
@@ -65,5 +66,9 @@ class FavoritesFragment : Fragment(), VideoClickListener {
 
     override fun onFavoriteClick(id:Int, externalID: String) {
         // NA
+    }
+
+    override fun doSearch(search: String?) {
+        adapter.filter.filter(search)
     }
 }
