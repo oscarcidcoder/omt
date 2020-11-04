@@ -33,6 +33,8 @@ class SharedRepository(private val api: RequestService, private val recommendedA
         return allVideos
     }
 
+    fun getVideoDB(videoID: Int) = videoDAO.getVideo(videoID)
+
 
     suspend fun saveVideoFavorite(video: Video) {
         if (video.isFavorite)

@@ -1,7 +1,6 @@
 package com.omt.omtest.ui.fragments.allvideos
 
 import android.os.Bundle
-import android.util.Log
 
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,8 +19,6 @@ import com.omt.omtest.ui.fragments.VideoClickListener
 import com.omt.omtest.utils.observe
 import kotlinx.android.synthetic.main.fragment_videos.view.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -54,9 +51,13 @@ class VideosFragment : Fragment(), VideoClickListener, SearchHelper {
         val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
         observe(viewModel.getAllVideos, {
             viewRoot.pb_loading.visibility = View.GONE
-            adapter.submitList(null)
+            //adapter.submitList(null)
             adapter.submitList(it)
         })
+
+        observe(viewModel.updateAdapterData) {
+            it?.first?.let { pos -> if (pos != -1) adapter.notifyItemChanged(pos) }
+        }
         return viewRoot
     }
 
@@ -97,6 +98,7 @@ class VideosFragment : Fragment(), VideoClickListener, SearchHelper {
     }
 
     override fun onVideoClick(video: Video, position: Int) {
+        viewModel.setVideoClickPosition(video.id,position)
         DetailVideoActivity.callDetail(requireContext(),video.externalId, video.isFavorite)
     }
 

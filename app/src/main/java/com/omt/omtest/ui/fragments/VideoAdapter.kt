@@ -62,7 +62,6 @@ class VideoAdapter constructor(private val listener: VideoClickListener,
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 sendData(results?.values as List<Video>)
-                //notifyDataSetChanged()
             }
         }
     }

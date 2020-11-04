@@ -34,9 +34,14 @@ class FavoritesFragment : Fragment(), VideoClickListener, SearchHelper {
         viewRoot.tv_nameFrame.text = getString(R.string.nameFrameFav)
         observe(viewModel.getFavoritesVideos, {
             viewRoot.pb_loading.visibility = View.GONE
-            adapter.submitList(null)
+            //adapter.submitList(null)
             adapter.submitList(it as List<Video>?)
         })
+
+        observe(viewModel.updateAdapterData) {
+            it?.second?.let { pos -> if (pos != -1) adapter.notifyItemChanged(pos) }
+        }
+
         return viewRoot
     }
 
@@ -61,6 +66,7 @@ class FavoritesFragment : Fragment(), VideoClickListener, SearchHelper {
     }
 
     override fun onVideoClick(video: Video, position: Int) {
+        viewModel.setVideoClickPosition(video.id,position)
         DetailVideoActivity.callDetail(requireContext(),video.externalId, video.isFavorite)
     }
 

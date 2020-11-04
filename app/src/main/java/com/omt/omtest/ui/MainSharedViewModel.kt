@@ -1,6 +1,5 @@
 package com.omt.omtest.ui
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.omt.omtest.domain.Video
 import kotlinx.coroutines.*
@@ -8,6 +7,11 @@ import kotlinx.coroutines.*
 class MainSharedViewModel constructor(private val repository: SharedRepository) : ViewModel() {
 
     private val job = SupervisorJob()
+
+    private var videoClicked= Pair(-1,-1)
+    private val _updateAdapterData = MutableLiveData<Pair<Int,Int>>()
+    val updateAdapterData: LiveData<Pair<Int,Int>>
+        get() = _updateAdapterData
 
     private val _allVideos = MutableLiveData<List<Video>>()
     val getAllVideos: LiveData<List<Video>>
@@ -25,40 +29,49 @@ class MainSharedViewModel constructor(private val repository: SharedRepository) 
         viewModelScope.launch(job + Dispatchers.IO) {
             val videos = repository.getAllVideos()
             val favoritesVideos = repository.getFavorites(videos)
-            Log.i("VIEW_MODEL", "getVideos: All SIZE-> ${videos.size}")
-            Log.i("VIEW_MODEL", "getVideos: Fav SIZE-> ${favoritesVideos.size}")
             _allVideos.postValue(videos)
             _mutableFavorite.postValue(favoritesVideos)
         }
     }
 
-    /**
-     * Find video in internal list without go to network
-     */
-    fun getVideo(externalID: String) = _allVideos.value?.find { it.externalId == externalID }
-
-    /**
-     * Find video in network
-     */
-    fun getVideoWeb(externalID: String) = liveData(job + Dispatchers.IO) {
-        emit(repository.getVideo(externalID))
-    }
-
-    fun getRecommended(externalID: String) = liveData(job + Dispatchers.IO) {
-        emit(repository.getRecommended(externalID))
-    }
-
     fun updateVideosState() {
-        viewModelScope.launch(job + Dispatchers.IO) {
+        val positionToUpdate = videoClicked
+        videoClicked = Pair(-1,-1)
+        if (positionToUpdate.first != -1) {
+            val videos = _allVideos.value
+            val video = videos?.firstOrNull { it.id == positionToUpdate.first }
+
+            video?.let {
+                viewModelScope.launch(job + Dispatchers.IO) {
+                    delay(500)
+                    val videoDB = async(job) {
+                        it.id.let { repository.getVideoDB(it) }
+                    }.await()
+
+                    val positionInAll = videos.indexOf(it)
+                    videos[positionInAll].isFavorite = videoDB != null
+                    val favoriteList = videos.filter { it.isFavorite }
+                    val positionInFavorite = favoriteList.indexOf(it)
+                    _allVideos.postValue(videos)
+                    _mutableFavorite.postValue(favoriteList)
+                    _updateAdapterData.postValue(Pair(positionInAll,positionInFavorite))
+                }
+            }
+
+        }
+
+        /* viewModelScope.launch(job + Dispatchers.IO) {
             val videos = _allVideos.value
             delay(500)
             val allVideosBind = videos?.let { repository.getFavorites2(it) }
-            Log.i("VIEW_MODEL", "updateVideosState: All SIZE-> ${allVideosBind?.size}")
             val favorites = allVideosBind?.filter { it.isFavorite }
-            Log.i("VIEW_MODEL", "updateVideosState: Fav SIZE-> ${favorites?.size}")
             _allVideos.postValue(allVideosBind)
             _mutableFavorite.postValue(favorites)
-        }
+        } */
+    }
+
+    fun setVideoClickPosition(videoID: Int, position: Int) {
+        videoClicked = Pair(videoID,position)
     }
 
     fun setFavoriteVideo(id:Int, externalID: String) {

@@ -17,9 +17,9 @@ class DetailViewModel constructor(private val externalID: String,
     val getVideo: LiveData<Video>
         get() = _video
 
-    private val _allRecommende = MutableLiveData<List<RecommendedVideo>>()
-    val getRecommende: LiveData<List<RecommendedVideo>>
-        get() = _allRecommende
+    private val _allRecommended = MutableLiveData<List<RecommendedVideo>>()
+    val getRecommended: LiveData<List<RecommendedVideo>>
+        get() = _allRecommended
 
     init {
         getVideoData()
@@ -33,7 +33,7 @@ class DetailViewModel constructor(private val externalID: String,
             val video = videoDeferred.await()
             video.isFavorite = isFavoriteInit
             _video.postValue(video)
-            _allRecommende.postValue(repository.getRecommended(video.assetExternalId.externalToParam()))
+            _allRecommended.postValue(repository.getRecommended(video.assetExternalId.externalToParam()))
         }
     }
 

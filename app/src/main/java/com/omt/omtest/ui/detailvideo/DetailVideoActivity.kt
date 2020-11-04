@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
 import com.omt.omtest.db.RoomDB
@@ -12,7 +13,6 @@ import com.omt.omtest.network.Service
 import com.omt.omtest.ui.SharedRepository
 import com.omt.omtest.utils.*
 import kotlinx.android.synthetic.main.activity_detail_video.*
-import kotlinx.android.synthetic.main.item_video.view.*
 import java.util.concurrent.TimeUnit
 
 class DetailVideoActivity : AppCompatActivity() {
@@ -48,11 +48,18 @@ class DetailVideoActivity : AppCompatActivity() {
             }
         }
 
-        observe(viewModel.getRecommende) {
+        observe(viewModel.getRecommended) {
             adapter.submitList(it)
         }
 
     }
+
+    /*
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setResult(RESULT_OK)
+    }
+    */
 
     private fun setupRecyclerView() {
         rv_recommended.layoutManager = LinearLayoutManager(this)
@@ -68,6 +75,7 @@ class DetailVideoActivity : AppCompatActivity() {
 
         private const val EXTRA_EXTERNAL_ID = "external_ID"
         private const val EXTRA_FAVORITE = "video_favorite"
+        const val REQUEST_POSITION = 3654
 
         fun callDetail(context: Context, externalID: String, isFavorite: Boolean) {
             val intent = Intent(context,DetailVideoActivity::class.java).apply {
@@ -75,6 +83,7 @@ class DetailVideoActivity : AppCompatActivity() {
                 putExtra(EXTRA_FAVORITE, isFavorite)
             }
             context.startActivity(intent)
+            //(context as FragmentActivity).startActivityForResult(intent,REQUEST_POSITION)
         }
 
     }
