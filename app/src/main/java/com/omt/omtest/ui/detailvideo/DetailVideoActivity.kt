@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
@@ -52,14 +53,18 @@ class DetailVideoActivity : AppCompatActivity() {
             adapter.submitList(it)
         }
 
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
     }
 
-    /*
-    override fun onBackPressed() {
-        super.onBackPressed()
-        setResult(RESULT_OK)
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home)
+            finish()
+        return super.onOptionsItemSelected(item)
     }
-    */
+
 
     private fun setupRecyclerView() {
         rv_recommended.layoutManager = LinearLayoutManager(this)
