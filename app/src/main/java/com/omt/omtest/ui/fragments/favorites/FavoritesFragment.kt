@@ -32,15 +32,11 @@ class FavoritesFragment : Fragment(), VideoClickListener, SearchHelper {
     ): View? {
         val viewRoot = inflater.inflate(R.layout.fragment_videos, container, false)
         viewRoot.tv_nameFrame.text = getString(R.string.nameFrameFav)
+
         observe(viewModel.getFavoritesVideos, {
             viewRoot.pb_loading.visibility = View.GONE
-            //adapter.submitList(null)
             adapter.submitList(it as List<Video>?)
         })
-
-        observe(viewModel.updateAdapterData) {
-            it?.second?.let { pos -> if (pos != -1) adapter.notifyItemChanged(pos) }
-        }
 
         return viewRoot
     }
@@ -48,6 +44,10 @@ class FavoritesFragment : Fragment(), VideoClickListener, SearchHelper {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        observe(viewModel.updateAdapterData) {
+            it?.second?.let { pos -> if (pos != -1) adapter.notifyItemChanged(pos) }
+        }
+
     }
 
     private fun setupRecyclerView() {

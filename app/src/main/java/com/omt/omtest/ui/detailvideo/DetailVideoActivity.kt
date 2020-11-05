@@ -80,7 +80,6 @@ class DetailVideoActivity : AppCompatActivity() {
 
         private const val EXTRA_EXTERNAL_ID = "external_ID"
         private const val EXTRA_FAVORITE = "video_favorite"
-        const val REQUEST_POSITION = 3654
 
         fun callDetail(context: Context, externalID: String, isFavorite: Boolean) {
             val intent = Intent(context,DetailVideoActivity::class.java).apply {
@@ -88,7 +87,6 @@ class DetailVideoActivity : AppCompatActivity() {
                 putExtra(EXTRA_FAVORITE, isFavorite)
             }
             context.startActivity(intent)
-            //(context as FragmentActivity).startActivityForResult(intent,REQUEST_POSITION)
         }
 
     }

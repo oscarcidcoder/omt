@@ -3,6 +3,7 @@ package com.omt.omtest.ui
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
 import androidx.fragment.app.Fragment

@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.omt.omtest.R
 import com.omt.omtest.domain.Video
+import com.omt.omtest.ui.MainActivity
 import com.omt.omtest.ui.MainSharedViewModel
 import com.omt.omtest.ui.SearchHelper
 import com.omt.omtest.ui.detailvideo.DetailVideoActivity
@@ -55,15 +56,15 @@ class VideosFragment : Fragment(), VideoClickListener, SearchHelper {
             adapter.submitList(it)
         })
 
-        observe(viewModel.updateAdapterData) {
-            it?.first?.let { pos -> if (pos != -1) adapter.notifyItemChanged(pos) }
-        }
         return viewRoot
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        observe(viewModel.updateAdapterData) {
+            it?.first?.let { pos -> if (pos != -1) adapter.notifyItemChanged(pos) }
+        }
     }
 
     private fun setupRecyclerView() {
